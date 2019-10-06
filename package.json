@@ -1,0 +1,27 @@
+{
+  "name": "hardiman-bitmovin-playlist-lib",
+  "version": "1.0.1",
+  "description": "A library to extend the functionality of the bitmovin web player to accept a playlist",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hardimanhk/bitmovin-playlist-library.git"
+  },
+  "keywords": [
+    "video",
+    "video-player",
+    "playlist"
+  ],
+  "author": "Hillary Hardiman <hardimanhk@gmail.com> (https://github.com/hardimanhk)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hardimanhk/bitmovin-playlist-library/issues"
+  },
+  "homepage": "https://github.com/hardimanhk/bitmovin-playlist-library#readme",
+  "dependencies": {
+    "bitmovin-player": "^8.18.1"
+  }
+}
