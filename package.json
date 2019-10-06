@@ -2,10 +2,11 @@
   "name": "hardiman-bitmovin-playlist-lib",
   "version": "1.0.3",
   "description": "A library to extend the functionality of the bitmovin web player to accept a playlist",
-  "main": "dist/index.ts",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   },
   "homepage": "https://github.com/hardimanhk/bitmovin-playlist-library#readme",
   "dependencies": {
-    "bitmovin-player": "^8.18.1"
+    "bitmovin-player": "^8.18.1",
+    "typescript": "^3.6.3"
   }
 }
