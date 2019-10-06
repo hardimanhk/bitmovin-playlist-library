@@ -1,6 +1,6 @@
 {
   "name": "hardiman-bitmovin-playlist-lib",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A library to extend the functionality of the bitmovin web player to accept a playlist",
   "main": "dist/index.ts",
   "types": "dist/index.d.ts",
