@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bitmovin Demo</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
+    <link rel="icon" type="image/png" href="./images/bit-fav.png">
+    <!-- Bootstrap 3.3.7 -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            color: #fff;
+            font-weight: 300;
+        }
+        body {
+            background: rgba(44, 131, 185, 1);
+            background: -moz-linear-gradient(left, rgba(44, 131, 185, 1) 0%, rgba(30, 171, 227, 1) 100%);
+            background: -webkit-gradient(left top, right top, color-stop(0%, rgba(44, 131, 185, 1)), color-stop(100%, rgba(30, 171, 227, 1)));
+            background: -webkit-linear-gradient(left, rgba(44, 131, 185, 1) 0%, rgba(30, 171, 227, 1) 100%);
+            background: -o-linear-gradient(left, rgba(44, 131, 185, 1) 0%, rgba(30, 171, 227, 1) 100%);
+            background: -ms-linear-gradient(left, rgba(44, 131, 185, 1) 0%, rgba(30, 171, 227, 1) 100%);
+            background: linear-gradient(to right, rgba(44, 131, 185, 1) 0%, rgba(30, 171, 227, 1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2c83b9', endColorstr='#1eabe3', GradientType=1);
+        }
+        #wrapper {
+            background: url(./images/logo-bg-demopage.png);
+            height: 100vh;
+        }
+        #banner {
+            border-bottom: 1px solid #fff;
+            background-color: #1eabe3;
+            width: 100%
+        }
+        #banner h1 {
+            margin: 0;
+            padding: 30px;
+        }
+        .logo {
+            padding: 10px;
+            width: 25%;
+            min-width: 350px;
+            float: left;
+            margin: auto;
+        }
+        .title {
+            width: 75%;
+            white-space: nowrap;
+        }
+        .clear {
+            clear: both;
+        }
+        .content {
+            margin-bottom: 10em;
+        }
+        h1, h2, h3, p {
+            font-weight: 300;
+            text-align: center;
+            margin: 40px;
+        }
+        #player {
+            /*max-width: 900px;*/
+            width: 75%;
+            margin: auto;
+            float: left;
+            -webkit-box-shadow: 0px 0px 56px 0px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: 0px 0px 56px 0px rgba(0, 0, 0, 0.75);
+            box-shadow: 0px 0px 56px 0px rgba(0, 0, 0, 0.75);
+        }
+        #playlist-items {
+            width: 25%;
+            height: 100%;
+            position: absolute;
+            right: 0px;
+        }
+        #previous, #skip {
+            background: black;
+            margin-top: 5px;
+        }
+        #buttons {
+            clear: left;
+        }
+        .description {
+            clear: left;
+        }
+        .player-wrapper {
+            position: relative;
+        }
+        #secret {
+            color:rgba(30, 171, 227, 1);
+            width: 300px;
+            position: absolute;
+            left: 50%;
+            margin-left: -150px;
+            top: 50%;
+            margin-top: -150px;
+            z-index: 100000;
+            font-size: 62px;
+            text-align: center;
+        }
+        #add-block {
+            margin: 5px;
+        }
+        #add-beginning, #add-end, #add-next {
+            color: blue;
+            margin-top: 5px;
+        }
+        #video-name, #hls {
+            color:rgba(0, 0, 0, 0.75);
+            width: 100%;
+        }
+        .source-item {
+            background: black;
+            padding-bottom: 20px;
+            border-top: red solid 1px;
+            border-bottom: red solid 1px;
+        }
+        .remove-button {
+            position: absolute;
+            right: 0px;
+            color: blue;
+        }
+        a {
+            color: #97d9ef;
+            font-weight: 400;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #fff;
+        }
+        @media (max-width: 800px) {
+            .logo {
+                width: 100%;
+            }
+            .title {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper">
+    <div id="banner">
+        <div class="logo"><img src="./images/bitmovin-logo.png"></div>
+        <div class="title"><h1>Modular Player - Webpack Demo</h1></div>
+        <div class="clear"></div>
+    </div>
+    <div class="container">
+        <h1>HTML5 Adaptive Streaming Player for MPEG-DASH & HLS</h1>
+        <h2>Your videos play everywhere with low startup delay, no buffering and in highest quality.</h2>
+        <div class="content">
+            <div class="player-wrapper">
+                <div id="secret"></div>
+                <div id="player"></div>
+                <div id="playlist-items"></div>
+                <div id="buttons">
+                    <button id="previous">Previous Song</button>
+                    <button id="skip">Skip Song</button>
+                </div>
+            </div>
+            <div>
+                <h3 id="add-block">Add A Video:</h3>
+                <form>
+                    Video name: <input type="text" id="video-name" name="video-name" value="Video Name"><br>
+                    HLS: <input type="text" id="hls" name="hls"><br>
+                </form>
+                <button id="add-beginning">Add to beginning</button>
+                <button id="add-end">Add to end</button>
+                <button id="add-next">Add next</button>
+            </div>
+            <div class="description">
+                <p>For more information about the bitmovin player, please have a look at our online <a
+                        href="//bitmovin.com/support" target="_blank">Developer Section</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../demo-dist/bundle.js"></script>
+</body>
+</html>

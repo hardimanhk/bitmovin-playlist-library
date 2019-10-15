@@ -1,7 +1,17 @@
 import { Player, PlayerEvent } from 'bitmovin-player/modules/bitmovinplayer-core';
 import { Source } from './models/source-class';
+import { EventEmitter } from 'events';
 
-export class Playlist {
+export declare interface Playlist {
+    on(event: 'quarterDone', listener: () => void): this;
+    on(event: 'halfDone', listener: () => void): this;
+    on(event: 'threeQuartersDone', listener: () => void): this;
+    on(event: 'videoComplete', listener: () => void): this;
+    on(event: 'playlistComplete', listener: () => void): this;
+    on(event: 'playlistStarted', listener: () => void): this;
+    on(event: 'transition', listener: (videoEnding: Source, videoStarting: Source) => void): this;
+}
+export class Playlist extends EventEmitter {
     constructor (
         private player: any,
         private sources: Source[],
@@ -9,7 +19,9 @@ export class Playlist {
         private videoToStart: number = 0,
         private startTime: number = 0,
         private progressMilestones: boolean = false
-    ) {}
+    ) {
+        super();
+    }
 
     // create a new playlist
     loadPlaylist() {    
@@ -19,13 +31,16 @@ export class Playlist {
             const index = this.sources.indexOf(this.player.getSource());
             setTimeout(() => {
                 if (this.sources[index + 1]) {
+                    this.emit('transition', this.sources[index], this.sources[index+1]);
                     this.player.load(this.sources[index +1]).then(() => {
                         console.log('Successfully loaded source with name: ' + this.sources[index + 1].title);
                         this.progressMilestonesFunc();
                     }, (error) => {
                         console.log('Error while loading source', error);
                     });
-                } // else emit playlist ended event
+                } else {
+                    this.emit('playlistComplete');
+                }
             }, this.timeBetweenVideos*1000);
         });
 
@@ -33,10 +48,10 @@ export class Playlist {
 
         // load requested video as the first video
         this.player.load(this.sources[this.videoToStart - 1]).then(() => {
-            console.log('Successfully loaded source with name: ' + this.sources[0].title + " , length: " + this.player.getDuration());
+            console.log('Successfully loaded source with name: ' + this.sources[this.videoToStart - 1].title + " , length: " + this.player.getDuration());
             this.progressMilestonesFunc();
             this.player.seek(this.startTime);
-            // emit playlist started event
+            this.emit('playlistStarted');
         }, (error) => {
             console.log('Error while loading source', error);
         });
@@ -53,36 +68,38 @@ export class Playlist {
             this.player.on(PlayerEvent.TimeChanged, () => {
                 const now = Math.floor(this.player.getCurrentTime());
                 if (now == Math.floor(videoDuration*0.25) && displayQuater) {
-                    window.alert('Your video is 25% complete.');
+                    this.emit('quarterDone');
                     displayQuater = false;
                 }
                 if (now == Math.floor(videoDuration*0.5) && displayHalf) {
-                    window.alert('Your video is 50% complete.');
+                    this.emit('halfDone');
                     displayHalf = false;
                 }
                 if (now == Math.floor(videoDuration*0.75) && displayThreeQuarters) {
-                    window.alert('Your video is 75% complete.');
+                    this.emit('threeQuartersDone');
                     displayThreeQuarters = false;
                 }
                 if (now == Math.floor(videoDuration) && displayComplete) {
-                    window.alert('Your video is 100% complete.');
+                    this.emit('videoComplete');
                     displayComplete = false;
                 }
             });
         }
     }
 
+
     skip() {
         const currentSource = this.player.getSource();
         const skipIndex = this.sources.indexOf(currentSource) + 1;
+        console.log(skipIndex);
         if (this.sources[skipIndex]) {
             this.player.load(this.sources[skipIndex]).then(() => {
-                this.progressMilestonesFunc();
                 this.player.play();
+                this.progressMilestonesFunc();
             });
         } else {
             this.player.unload();
-            // emit playlist ended event
+            this.emit('playlistCompete');
         }
     }
 
@@ -91,28 +108,35 @@ export class Playlist {
         const prevIndex = this.sources.indexOf(currentSource) - 1;
         if (this.sources[prevIndex]) {
             this.player.load(this.sources[prevIndex]).then(() => {
-                this.progressMilestonesFunc();
                 this.player.play();
+              this.progressMilestonesFunc();
             });
         } else {
             this.player.load(currentSource).then(() => {
-                this.progressMilestonesFunc();
                 this.player.play();
-                // emit playlist started event
+                this.progressMilestonesFunc();
+                this.emit('playlistStarted');
             });
         }
     }
 
-    addNextSong() {
-
+    addSong(video: Source, index: number) {
+        this.sources.splice(index, 0, video);
     }
 
-    addSongToBeginning() {
-
+    addSongToBeginning(video: Source) {
+        this.sources.unshift(video);
     }
 
-    addSongToEnd() {
+    addSongToEnd(video: Source) {
+        this.sources.push(video);
+    }
 
+    removeSong(video: Source) {
+        this.skip();
+        this.sources = this.sources.filter(source => {
+            return source != video;
+        });
     }
 }
 
