@@ -15,7 +15,7 @@ The library contains functions to:
 
 To initialize a playlist import and instantiate a new playlist instance as shown below:
 ```
-import { Playlist } from '../dist/playlist';
+import { Playlist } from 'hardiman-bitmovin-playlist-lib';
 const playlist = new Playlist(player, sources, int1, int2, int3, milestones);
 ```
 Here is a guide to each of the inputs for the new Playlist:
@@ -65,3 +65,5 @@ const playlist = new Playlist(player, sources, 0, 2, 0, true);
 ```
 
 To load the playlist simply call `Playlist.loadPlaylist()`
+
+There is an attached demo page in this repo, to load the demo page clone this repo and run `npm i` then `npx webpack-dev-server`. The demo page will be available at http://localhost:3035
