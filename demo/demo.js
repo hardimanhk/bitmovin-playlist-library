@@ -1,5 +1,4 @@
 import { Player, PlayerEvent } from 'bitmovin-player/modules/bitmovinplayer-core';
-import { Playlist } from '../dist/playlist';
 import EngineBitmovinModule from 'bitmovin-player/modules/bitmovinplayer-engine-bitmovin';
 import MseRendererModule from 'bitmovin-player/modules/bitmovinplayer-mserenderer';
 import HlsModule from 'bitmovin-player/modules/bitmovinplayer-hls';
@@ -9,6 +8,8 @@ import SubtitlesModule from 'bitmovin-player/modules/bitmovinplayer-subtitles';
 import SubtitlesCEA608Module from 'bitmovin-player/modules/bitmovinplayer-subtitles-cea608';
 import PolyfillModule from 'bitmovin-player/modules/bitmovinplayer-polyfill';
 import StyleModule from 'bitmovin-player/modules/bitmovinplayer-style';
+
+import { Playlist } from '../dist/playlist';
 
 import { UIFactory } from 'bitmovin-player/bitmovinplayer-ui';
 import 'bitmovin-player/bitmovinplayer-ui.css';
