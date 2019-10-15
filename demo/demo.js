@@ -25,7 +25,8 @@ Player.addModule(StyleModule);
 
 const conf = {
     key: 'YOUR KEY HERE',
-    ui: false
+    ui: false,
+    advertising: {}
 };
 
 let sources = [
@@ -132,6 +133,13 @@ document.getElementById('add-next').addEventListener('click', () => {
     const index = playlist.sources.indexOf(player.getSource()) + 1;
     playlist.addNextSong(newVid, index);
     playlistItems();
+});
+
+document.getElementById('scheudle-ad-button').addEventListener('click', () => {
+    const adType = document.getElementById('adType').value;
+    const manifestUrl = document.getElementById('ad-server-url').value || 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/32573358/skippable_ad_unit&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=http%3A%2F%2Freleasetest.dash-player.com%2Fads%2F&description_url=[description_url]&correlator=[random]';
+    const position = document.getElementById('schedule-position').value;
+    playlist.scheduleAd(manifestUrl, adType, position);
 });
 
 function removeButtonClick() {

@@ -104,7 +104,7 @@
             font-size: 62px;
             text-align: center;
         }
-        #add-block {
+        #add-block, #add-ads {
             margin: 5px;
         }
         #add-beginning, #add-end, #add-next {
@@ -173,6 +173,42 @@
                 <button id="add-beginning">Add to beginning</button>
                 <button id="add-end">Add to end</button>
                 <button id="add-next">Add next</button>
+            </div>
+            <div>
+                <h3 id="add-ads">Add Ads: </h3>
+                <!-- Copied from: https://github.com/bitmovin/demos/blob/master/player/ad-scheduling/index.html -->
+                <div class="controls">
+                        <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <select id="adType" class="form-control">
+                                    <option selected="selected" value="vast">VAST</option>
+                                    <option value="vpaid">VPAID</option>
+                                    <option value="vmap">VMAP</option>
+                                    <option value="ima">IMA</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <select id="schedule-position" class="form-control">
+                                    <option selected="selected" value="pre">Ad position : pre-roll (0%)</option>
+                                    <option value="5%">Ad position : mid-roll(5%)</option>
+                                    <option value="10%">Ad position : mid-roll(10%)</option>
+                                    <option value="post">Ad position : post-roll (100%)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-12">
+                                <input id="ad-server-url" type="text" class="form-control"
+                                       placeholder="Custom ad server URL, if empty default will be used">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 text-right">
+                                <input id="scheudle-ad-button" class="btn btn-success mr-3 mt-2" type="button" value="Schedule AD">
+                                <input id="reset-button" class="btn btn-warning mt-2" type="button" value="Reset Configuration">
+                            </div>
+                        </div>
+                    </div>
             </div>
             <div class="description">
                 <p>For more information about the bitmovin player, please have a look at our online <a

@@ -1,7 +1,6 @@
 import { Player, PlayerEvent } from 'bitmovin-player/modules/bitmovinplayer-core';
 import { Source } from './models/source-class';
 import { EventEmitter } from 'events';
-
 export declare interface Playlist {
     on(event: 'quarterDone', listener: () => void): this;
     on(event: 'halfDone', listener: () => void): this;
@@ -136,6 +135,17 @@ export class Playlist extends EventEmitter {
         this.skip();
         this.sources = this.sources.filter(source => {
             return source != video;
+        });
+    }
+
+    scheduleAd(url, type, position) {
+        this.player.ads.schedule({
+            tag: {
+                url: url,
+                type: type
+            },
+            id: 'playerAd',
+            position: position
         });
     }
 }
